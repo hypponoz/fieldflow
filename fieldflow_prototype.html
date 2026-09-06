@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FieldFlow — prototype</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -671,7 +671,7 @@
 
       <div class="tile">
         <div class="tile-head">
-          <div class="lt"><div class="ic-box"><i class="ti ti-building-store"></i></div><div><div class="ttl" id="joProjectName">PROJ-0016</div><div class="sub">Project</div></div></div>
+          <div class="lt"><div class="ic-box"><i class="ti ti-building-store"></i></div><div><div class="ttl" id="joProjectName">DEMO-0101</div><div class="sub">Project</div></div></div>
         </div>
         <div class="kv-row"><span>Contact</span><span id="joContact">Kathryn Ortiz · (863) 555-0142</span></div>
         <div class="kv-row"><span>Address</span><span class="addr-line" id="joAddress">5406 Jacob Avenue, Polk City, FL 33868<button class="pin-btn" onclick="openRouteModal()" title="Route"><i class="ti ti-map-pin" style="font-size:13px"></i></button></span></div>
@@ -736,7 +736,7 @@
 
       <div class="tile">
         <div class="tile-head">
-          <div class="lt"><div class="ic-box"><i class="ti ti-building-store"></i></div><div><div class="ttl">Kathryn Ortiz — PROJ-0016</div><div class="sub">Project</div></div></div>
+          <div class="lt"><div class="ic-box"><i class="ti ti-building-store"></i></div><div><div class="ttl">Kathryn Ortiz — DEMO-0101</div><div class="sub">Project</div></div></div>
         </div>
         <div class="kv-row"><span>Contact</span><span>Kathryn Ortiz · (863) 555-0142</span></div>
         <div class="kv-row"><span>Address</span><span class="addr-line">5406 Jacob Avenue, Polk City, FL 33868<button class="pin-btn" onclick="openRouteModal()" title="Route to visit"><i class="ti ti-map-pin" style="font-size:13px"></i></button></span></div>
@@ -953,19 +953,19 @@ var visits = {
 var jobs = {
   kathryn_job: {
     customer: 'Kathryn Ortiz', jobNo: 'Job #25462985 · Whirlpool washer', status: 'scheduled', statusLabel: 'Scheduled',
-    project: 'PROJ-0016', contact: 'Kathryn Ortiz · (863) 555-0142', address: '5406 Jacob Avenue, Polk City, FL 33868',
+    project: 'DEMO-0101', contact: 'Kathryn Ortiz · (863) 555-0142', address: '5406 Jacob Avenue, Polk City, FL 33868',
     billing: { type: 'order', number: 'SO-0016', status: 'awaiting_payment', statusLabel: 'Awaiting payment', amount: '$260.00' },
     visitList: [{ key: 'kathryn', color: '#0C447C', type: 'Diagnosis visit', when: 'Mon, Jul 27 · 10:00 AM', status: 'scheduled', statusLabel: 'Scheduled' }]
   },
   noel_job: {
     customer: 'Noel Figuero', jobNo: 'Job #25488113 · Refrigerator', status: 'started', statusLabel: 'On the way',
-    project: 'PROJ-0017', contact: 'Noel Figuero · (321) 555-0198', address: '353 Marquee Drive, Kissimmee, FL 34758',
+    project: 'DEMO-0102', contact: 'Noel Figuero · (321) 555-0198', address: '353 Marquee Drive, Kissimmee, FL 34758',
     billing: { type: 'invoice', number: 'INV-0141', status: 'paid', statusLabel: 'Paid', amount: '$390.00' },
     visitList: [{ key: 'noel', color: '#854F0B', type: 'Completion visit', when: 'Mon, Jul 27 · 2:00 PM', status: 'started', statusLabel: 'On the way' }]
   },
   anthony_job: {
     customer: 'Anthony Thompson', jobNo: 'Job #33981395 · Dryer', status: 'recall', statusLabel: 'Recall',
-    project: 'PROJ-0012', contact: 'Anthony Thompson · (863) 555-0177', address: 'Grenelefe, Haines City, FL 33844',
+    project: 'DEMO-0103', contact: 'Anthony Thompson · (863) 555-0177', address: 'Grenelefe, Haines City, FL 33844',
     billing: { type: 'order', number: 'SO-0012', status: 'partial', statusLabel: 'Deposit paid · $150 of $410', amount: '$410.00' },
     // Order → return → reorder example (mirrors the real sign-bucketed pairing confirmed live
     // on PROJ-0019 — same item_code across 3 rows: Received → Returned → Received again).
@@ -981,13 +981,13 @@ var jobs = {
   },
   gregory_job: {
     customer: 'Gregory Novak', jobNo: 'Job #34031108 · Dishwasher', status: 'completed', statusLabel: 'Completed',
-    project: 'PROJ-0020', contact: 'Gregory Novak · (863) 555-0133', address: 'Poinciana, FL 34759',
+    project: 'DEMO-0104', contact: 'Gregory Novak · (863) 555-0133', address: 'Poinciana, FL 34759',
     billing: { type: 'invoice', number: 'INV-0139', status: 'paid', statusLabel: 'Paid', amount: '$310.00' },
     visitList: [{ key: 'gregory', color: '#27500A', type: 'Completion visit', when: 'Thu, Jul 23 · 11:00 AM', status: 'completed', statusLabel: 'Completed' }]
   },
   thomas_job: {
     customer: 'Thomas Mulcahy', jobNo: 'Job #34022955 · Washer', status: 'scheduled', statusLabel: 'Scheduled',
-    project: 'PROJ-0021', contact: 'Thomas Mulcahy · (863) 555-0164', address: 'Davenport, FL 33837',
+    project: 'DEMO-0105', contact: 'Thomas Mulcahy · (863) 555-0164', address: 'Davenport, FL 33837',
     billing: { type: 'order', number: 'SO-0021', status: 'draft', statusLabel: 'Draft · waiting on parts', amount: 'TBD' },
     parts: [
       { name: 'Water Inlet Valve', code: 'WPW10121138', qty: '1 unit', supplier: 'Encompass Supply', status: 'waiting', statusLabel: 'ETA Jul 30', purchaseInvoice: 'ACC-PINV-2026-00041' }
