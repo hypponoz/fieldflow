@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FieldFlow — prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.44.0/tabler-icons.min.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0F6E56">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAE80lEQVR4nO3dO3IbSRBF0UeE/BlTKxuZ3IHG0yLozRJoamc0x6NMGc1ogY3O/tUvK+seT2IwCCIvspoAA3x6//Wuwr7+eC79JQb09vJa+ks8FYqDIGoqFErmOGiirbyV5ImDJrzJUklqHGThWWIit5RPpgznEgd0cXOQRV+urZArm4MyunNtZOc2B1n07tQKObE5KCOAU0M8GgdlhHF8lIfioIxgDg50Pw7KCOnIWHfioIzAdoe7FQdlhLc9YjMOyhjExqCTnj5HbOtxsDaGYo17JQ7KGNDq0DlWYFrGwdoY1uPob9sfxlAWAXCswPQnDtYG9DkDNgdMxAHTRxycKZjNMbA5YCIOmG7iTMGDKQk2B0zEARNxwPT01/d/Wt8GOMXmgIk4YCIOmIgDJuKAiThgIg6YiAMm4oCJOGAiDpiIA6YvrW8Alv7/7+f9P//+91urW8Krso4ssrjXJBGOFS82ytj9aCHE4cKR2dfvgzjaOz71yn0QB0zE0djZZVBzeRAHTMTRUpOfQY4jjmaclyHiaMV/GSKO7tR8qpQ4GuhibYg46kspo/IrLMRRVUdliDh6wauywfVyqTEjjkr6OlAmxFFDj2WIOJxrWIaIo4LuLjVmxFFWpwfKhDgK6roMEUc5vZch4sAG4igiwNoQcZQQowwRR3ZhyhBxYANx5BRpbYg4MgpWhogjl3hliDiac1uGiCOLfl9a20YcqUIeKBPiSBK4DBFHK/7LEHGkiHqpMSOOi2IfKBN3bzXp540WN4xQhlzFsXqPT//Z0R26ra9vxMux4vCNFi2ubkxRLuLw+UaLqwY5UCbt43D7Rot5b0B3ZchDHKc07GO0MtQ8jgv3ePP9MY7ONsekfh8Drg11Gofq9jFmGeo3DtXqY9gy1HUc8n390XsZah5H+j1YtA/P8VXQ9+YoauQDZdI+Dp/LgzLkIQ557eOaMGXISRxy1oef1Npy99chEwfTNrJIa0N+Nscs8f5NbIsy7rmLQ637uCZeGfIZhxr1waXGgtM4VL0PDpRHfuNQxT4oY5XrONKV/gXEwGXIfxyunv8Yjfc4VLgP1saGDuJQsT4oY1sfcahAH5Sxq5s4xPVHdT3FoXwPWdbGEe5eeDui4QIYpwx1tzkmrSY0VBnqNA61mNNoZajfODTktCrrOA5V7GPMEPuOQ1XGNmYZChCHCg9v2DIUIw6NPcJygsShMn0M3lycOLIbvAwFiyPjOClDweIQQ80qWhzK0QeFTQLGobTpUsYsZhy6OmPKuBc2DjHpZJHjOIuYFoLHcXzelPEoeBw6NnXKWBU/Du3NnjIsXf4O6WVd/KUfP8aKA6cMcazgGuKAiThgIg6YiAMm4oCJOGAiDpiIAybigIk4YLq9vby2vg3w6O3llc0BE3HARBww3SRx2YGFKQk2B0zEAdNHHJwsmM0xsDlgIg6Y/sTByQJ9zoDNAdOnOFgeg1sEsNwc9DGsx9FzrMC0EgfLY0CrQ1/fHPQxFGvcHCswmXGwPAaxMeitzUEf4W2PeOdYoY/Adoe7f81BHyEdGeuhC1L6CObgQI/+tEIfYRwf5YkfZekjgFNDfHr/9X72C3z98Xz2U9Dchcf2lSfBWCHduTayK5tjxgrxL+WRnPT0OSvEucQBJW2OGSvEmyyP2zxxzKikrby7PHMcMyqpqdD5XiqOe4RSQoULvt9BbcsLS7+ZGgAAAABJRU5ErkJggg==">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FieldFlow">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #E8ECEA;
+    display: flex;
+    justify-content: center;
+    padding: 24px 0;
+    min-height: 100vh;
+  }
+  .phone {
+    width: 393px;
+    height: 852px;
+    background: #F7F8F7;
+    border-radius: 44px;
+    border: 8px solid #14181A;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .notch {
+    position: absolute;
+    top: 8px; left: 50%;
+    transform: translateX(-50%);
+    width: 120px; height: 24px;
+    background: #14181A;
+    border-radius: 0 0 16px 16px;
+    z-index: 90;
+  }
+  .statusbar {
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 24px 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #14181A;
+    position: relative;
+    z-index: 10;
+    background: #F7F8F7;
+  }
+  .screen {
+    flex: 1;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    position: relative;
+  }
+  .screen::-webkit-scrollbar { display: none; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  .header {
+    padding: 4px 20px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .header h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #14181A;
+  }
+  .header .sub { font-size: 13px; color: #6B7570; margin-top: 2px; }
+  .avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: #0F6E56; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px;
+  }
+  .icon-btn {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: #fff; border: 1px solid #E1E5E2;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+
+  .install-banner {
+    margin: 0 20px 16px; padding: 12px 14px;
+    background: #14181A; border-radius: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .install-banner .ic {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: #0F6E56; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: #fff;
+  }
+  .install-banner .txt { flex: 1; }
+  .install-banner .txt b { color: #fff; font-size: 13px; display: block; font-weight: 700; }
+  .install-banner .txt span { color: #9BA39E; font-size: 11px; }
+  .install-banner button {
+    background: #fff; color: #14181A; border: none;
+    padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 700;
+  }
+
+  .stats-row { display: flex; gap: 10px; padding: 0 20px 20px; }
+  .stat-card { flex: 1; background: #fff; border-radius: 18px; padding: 14px 14px; border: 1px solid #EEF1EF; }
+  .stat-card .num { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; color: #14181A; }
+  .stat-card .lbl { font-size: 11.5px; color: #6B7570; margin-top: 2px; font-weight: 500; }
+  .stat-card.accent { background: #0F6E56; }
+  .stat-card.accent .num, .stat-card.accent .lbl { color: #fff; }
+  .stat-card.accent .lbl { color: #BFE3D6; }
+
+  .section-title { padding: 4px 20px 12px; display: flex; align-items: center; justify-content: space-between; }
+  .section-title h2 { font-size: 15px; font-weight: 700; color: #14181A; }
+  .section-title a { font-size: 12.5px; color: #0F6E56; font-weight: 600; }
+
+  .job-card {
+    margin: 0 20px 12px; background: #fff; border-radius: 18px;
+    padding: 14px 16px; border: 1px solid #EEF1EF;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .job-time { width: 54px; flex-shrink: 0; text-align: left; }
+  .job-time .t { font-size: 14px; font-weight: 700; color: #14181A; }
+  .job-time .d { font-size: 10.5px; color: #9BA39E; margin-top: 1px; }
+  .job-line { width: 3px; align-self: stretch; border-radius: 2px; flex-shrink: 0; }
+  .job-body { flex: 1; min-width: 0; }
+  .job-body .name { font-size: 14.5px; font-weight: 700; color: #14181A; }
+  .job-body .addr { font-size: 12.5px; color: #6B7570; margin-top: 2px; }
+  .badge {
+    display: inline-block; font-size: 10.5px; font-weight: 700;
+    padding: 3px 9px; border-radius: 20px; margin-top: 8px;
+  }
+  .badge.scheduled { background: #E6F1FB; color: #0C447C; }
+  .badge.started { background: #FAEEDA; color: #854F0B; }
+  .badge.completed { background: #EAF3DE; color: #27500A; }
+  .badge.recall { background: #FCEBEB; color: #791F1F; }
+  .badge.draft { background: #F0F3F1; color: #40453F; }
+  .badge.partial { background: #FAEEDA; color: #854F0B; }
+  .badge.awaiting_payment { background: #E6F1FB; color: #0C447C; }
+  .badge.paid { background: #EAF3DE; color: #27500A; }
+
+  .fab {
+    position: absolute; right: 20px; bottom: 96px;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #0F6E56; color: #fff; font-size: 26px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 20px rgba(15,110,86,0.4);
+    border: none; z-index: 40;
+  }
+
+  .cal-strip { display: flex; gap: 8px; padding: 0 20px 18px; overflow-x: auto; }
+  .cal-day { flex-shrink: 0; width: 52px; padding: 10px 0; border-radius: 16px; text-align: center; background: #fff; border: 1px solid #EEF1EF; }
+  .cal-day .dow { font-size: 10.5px; color: #9BA39E; font-weight: 600; }
+  .cal-day .num { font-size: 16px; font-weight: 700; color: #14181A; margin-top: 4px; }
+  .cal-day.today { background: #14181A; }
+  .cal-day.today .dow { color: #9BA39E; }
+  .cal-day.today .num { color: #fff; }
+  .cal-day .dot { width: 4px; height: 4px; border-radius: 50%; background: #0F6E56; margin: 5px auto 0; }
+  .cal-day.today .dot { background: #4CD3AC; }
+
+  .timeline { padding: 0 20px 20px; }
+  .tl-row { display: flex; gap: 12px; min-height: 64px; }
+  .tl-hour { width: 44px; flex-shrink: 0; font-size: 11px; color: #9BA39E; padding-top: 2px; font-weight: 600; }
+  .tl-track { flex: 1; border-top: 1px solid #EEF1EF; padding: 8px 0; }
+  .tl-event { border-radius: 12px; padding: 9px 12px; font-size: 12.5px; display: flex; flex-direction: column; gap: 2px; }
+  .tl-event b { font-size: 13px; }
+  .tl-event span { font-size: 11px; opacity: 0.85; }
+  .tl-event.blue { background: #E6F1FB; color: #0C447C; }
+  .tl-event.teal { background: #DFF3EC; color: #0F6E56; }
+  .tl-event.amber { background: #FAEEDA; color: #854F0B; }
+
+  .inv-summary { display: flex; gap: 10px; padding: 0 20px 18px; }
+  .inv-pill { flex: 1; background: #fff; border-radius: 16px; padding: 12px; border: 1px solid #EEF1EF; text-align: center; }
+  .inv-pill .n { font-size: 18px; font-weight: 700; color: #14181A; font-family: 'Space Grotesk', sans-serif; }
+  .inv-pill .l { font-size: 10.5px; color: #6B7570; margin-top: 2px; }
+
+  .inv-card { margin: 0 20px 12px; background: #fff; border-radius: 18px; border: 1px solid #EEF1EF; overflow: hidden; }
+  .inv-head { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #F2F4F3; }
+  .inv-head .cust { font-size: 14.5px; font-weight: 700; color: #14181A; }
+  .inv-head .num { font-size: 11.5px; color: #9BA39E; margin-top: 2px; }
+  .inv-head .amt { font-size: 16px; font-weight: 700; color: #14181A; font-family: 'Space Grotesk', sans-serif; }
+
+  .item-tile { display: flex; align-items: center; gap: 12px; padding: 10px 16px; }
+  .item-tile + .item-tile { border-top: 1px solid #F5F6F5; }
+  .item-ic { width: 38px; height: 38px; border-radius: 11px; flex-shrink: 0; background: #F0F3F1; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+  .item-info { flex: 1; min-width: 0; }
+  .item-info .n { font-size: 13px; font-weight: 600; color: #14181A; }
+  .item-info .q { font-size: 11.5px; color: #9BA39E; margin-top: 1px; }
+  .item-info .desc { font-size: 11.5px; color: #6B7570; margin-top: 3px; line-height: 1.4; }
+  .item-price { font-size: 13.5px; font-weight: 700; color: #14181A; flex-shrink: 0; }
+
+  .inv-foot { padding: 12px 16px; background: #FAFBFA; display: flex; justify-content: space-between; align-items: center; }
+  .inv-foot .paid { font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
+  .inv-foot .paid.due { background: #FCEBEB; color: #791F1F; }
+  .inv-foot .paid.ok { background: #EAF3DE; color: #27500A; }
+  .inv-foot button { background: #14181A; color: #fff; border: none; padding: 7px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+
+  .jobs-search-bar { display: none; align-items: center; gap: 8px; margin: 0 20px 14px; padding: 10px 14px; background: #fff; border: 1px solid #EEF1EF; border-radius: 14px; }
+  .jobs-search-bar.open { display: flex; }
+  .jobs-search-bar input { flex: 1; border: none; outline: none; background: transparent; font-family: inherit; font-size: 13px; color: #14181A; }
+  .jobs-search-bar input::placeholder { color: #9BA39E; }
+
+  .chip-row { display: flex; gap: 8px; padding: 0 20px 16px; overflow-x: auto; }
+  .chip { flex-shrink: 0; padding: 7px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 600; background: #fff; border: 1px solid #EEF1EF; color: #6B7570; }
+  .chip.active { background: #14181A; color: #fff; border-color: #14181A; }
+  .jobrow { margin: 0 20px 10px; background: #fff; border-radius: 16px; padding: 12px 14px; border: 1px solid #EEF1EF; display: flex; align-items: center; gap: 12px; }
+  .jobrow .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .jobrow .info { flex: 1; min-width: 0; }
+  .jobrow .info .n { font-size: 13.5px; font-weight: 700; color: #14181A; }
+  .jobrow .info .m { font-size: 11.5px; color: #9BA39E; margin-top: 1px; }
+  .jobrow .chev { color: #C7CCC9; font-size: 16px; }
+
+  .tabbar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 88px; background: #fff;
+    border-top: 1px solid #EEF1EF;
+    display: flex; padding-bottom: 22px;
+  }
+  .tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; background: none; border: none; color: #9BA39E; font-size: 10.5px; font-weight: 600; }
+  .tab .ic { font-size: 21px; }
+  .tab.active { color: #0F6E56; }
+
+  /* ===== VISIT DETAIL (fullscreen) ===== */
+  .visit-screen {
+    position: absolute; inset: 0; background: #F7F8F7;
+    display: none; flex-direction: column; z-index: 80;
+  }
+  .visit-screen.open { display: flex; }
+  .visit-scroll { flex: 1; overflow-y: auto; -ms-overflow-style: none; scrollbar-width: none; }
+  .visit-scroll::-webkit-scrollbar { display: none; }
+
+  .visit-top {
+    padding: 4px 20px 18px; display: flex; align-items: flex-start; gap: 12px;
+  }
+  .visit-top .back {
+    width: 36px; height: 36px; border-radius: 50%; background: #fff; border: 1px solid #E1E5E2;
+    display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; margin-top: 2px;
+  }
+  .note-editor-top .back {
+    width: 36px; height: 36px; border-radius: 50%; background: #fff; border: 1px solid #E1E5E2;
+    display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;
+  }
+  .visit-top .who { flex: 1; }
+  .visit-top .who h1 { font-family: 'Space Grotesk', sans-serif; font-size: 21px; font-weight: 700; color: #14181A; line-height: 1.2; }
+  .visit-top .who .jobno { font-size: 12.5px; color: #6B7570; margin-top: 3px; font-weight: 500; }
+
+  .sig-row { display: flex; gap: 8px; padding: 0 20px 18px; }
+  .sig-btn {
+    flex: 1; background: #fff; border: 1px solid #EEF1EF; border-radius: 14px;
+    padding: 9px 6px; display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .sig-btn .ic { font-size: 16px; color: #0F6E56; }
+  .sig-btn .lbl { font-size: 12px; font-weight: 700; color: #14181A; }
+
+  .tile {
+    margin: 0 20px 14px; background: #fff; border-radius: 18px; border: 1px solid #EEF1EF; overflow: hidden;
+  }
+  .tile-head {
+    padding: 13px 16px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .tile-head .lt { display: flex; align-items: center; gap: 10px; }
+  .tile-head .ic-box {
+    width: 34px; height: 34px; border-radius: 10px; background: #F0F3F1;
+    display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;
+  }
+  .tile-head .ttl { font-size: 13.5px; font-weight: 700; color: #14181A; }
+  .tile-head .sub { font-size: 11px; color: #9BA39E; margin-top: 1px; }
+
+  .timer-tile { background: #0F6E56; }
+  .timer-tile .tile-head .ic-box { background: rgba(255,255,255,0.15); color: #fff; }
+  .timer-tile .tile-head .ttl { color: #fff; }
+  .timer-tile .tile-head .sub { color: #BFE3D6; }
+  .timer-tile .go {
+    width: 34px; height: 34px; border-radius: 50%; background: #fff; color: #0F6E56;
+    display: flex; align-items: center; justify-content: center; font-size: 15px; border: none;
+  }
+  .timer-btn-row { display: flex; gap: 8px; flex-shrink: 0; }
+  .timer-tile .go.finish { background: rgba(255,255,255,0.2); color: #fff; }
+  .miles-note { padding: 0 16px 13px; font-size: 11px; color: #BFE3D6; display: flex; align-items: center; gap: 5px; }
+
+  .pin-btn {
+    width: 26px; height: 26px; border-radius: 50%; background: #E6F1FB; color: #0C447C;
+    border: none; display: inline-flex; align-items: center; justify-content: center;
+    font-size: 13px; flex-shrink: 0; margin-left: 6px;
+  }
+  .kv-row .addr-line { display: flex; align-items: center; justify-content: flex-end; }
+
+  .modal-overlay {
+    position: absolute; inset: 0; background: rgba(20,24,26,0.5);
+    display: none; align-items: flex-end; z-index: 95;
+  }
+  .modal-overlay.open { display: flex; }
+  .route-modal { background: #fff; width: 100%; border-radius: 24px 24px 0 0; padding: 10px 20px 28px; }
+  .route-modal .grabber { width: 36px; height: 4px; background: #E1E5E2; border-radius: 4px; margin: 0 auto 16px; }
+  .route-modal h3 { font-size: 17px; font-weight: 700; color: #14181A; margin-bottom: 2px; }
+  .route-modal .sub { font-size: 12.5px; color: #6B7570; margin-bottom: 18px; }
+  .route-option {
+    width: 100%; display: flex; align-items: center; gap: 12px; text-align: left;
+    background: #FAFBFA; border: 1px solid #EEF1EF; border-radius: 14px;
+    padding: 12px 14px; margin-bottom: 10px;
+  }
+  .route-option .ic-box { width: 36px; height: 36px; border-radius: 10px; background: #E6F1FB; color: #0C447C; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+  .route-option .txt b { font-size: 13.5px; color: #14181A; display: block; }
+  .route-option .txt span { font-size: 11.5px; color: #9BA39E; }
+  .route-option.primary { background: #0F6E56; border-color: #0F6E56; }
+  .route-option.primary .ic-box { background: rgba(255,255,255,0.18); color: #fff; }
+  .route-option.primary .txt b { color: #fff; }
+  .route-option.primary .txt span { color: #BFE3D6; }
+  .route-cancel { width: 100%; padding: 13px; border-radius: 14px; font-size: 13px; font-weight: 700; border: none; background: #F0F3F1; color: #14181A; margin-top: 4px; }
+
+  .kv-row { display: flex; justify-content: space-between; padding: 9px 16px; border-top: 1px solid #F2F4F3; font-size: 12.5px; }
+  .kv-row span:first-child { color: #9BA39E; }
+  .kv-row span:last-child { color: #14181A; font-weight: 600; text-align: right; max-width: 220px; }
+  .kv-row a { color: #0F6E56; font-weight: 700; text-decoration: none; }
+
+  .notes-add { padding: 12px 16px; border-top: 1px solid #F2F4F3; }
+  .notes-add textarea {
+    width: 100%; border: 1px solid #EEF1EF; border-radius: 12px; padding: 10px 12px;
+    font-family: inherit; font-size: 12.5px; resize: none; min-height: 56px; background: #FAFBFA;
+  }
+  .notes-add button {
+    margin-top: 8px; background: #14181A; color: #fff; border: none; padding: 8px 16px;
+    border-radius: 20px; font-size: 12px; font-weight: 700; float: right;
+  }
+  .note-item { padding: 11px 16px; border-top: 1px solid #F2F4F3; display: flex; gap: 10px; }
+  .note-item .av { width: 26px; height: 26px; border-radius: 50%; background: #E6F1FB; color: #0C447C; font-size: 10.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .note-item .body b { font-size: 12px; color: #14181A; }
+  .note-item .body .when { font-size: 10.5px; color: #9BA39E; margin-left: 6px; }
+  .note-item .body p { font-size: 12.5px; color: #40453F; margin-top: 2px; line-height: 1.4; }
+
+  .tile-head .add-note-btn {
+    width: 30px; height: 30px; border-radius: 50%; background: #F0F3F1; color: #14181A;
+    border: none; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0;
+  }
+  .note-item { cursor: pointer; }
+
+  .note-editor {
+    position: absolute; inset: 0; background: #F7F8F7;
+    display: none; flex-direction: column; z-index: 100;
+  }
+  .note-editor.open { display: flex; }
+  .note-editor-top { padding: 4px 20px 14px; display: flex; align-items: center; justify-content: space-between; }
+  .note-editor-top .lt { display: flex; align-items: center; gap: 12px; }
+  .note-editor-top h2 { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; color: #14181A; }
+  .note-editor-save { background: #0F6E56; color: #fff; border: none; padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 700; }
+  .note-editor-body { flex: 1; padding: 0 20px; display: flex; flex-direction: column; }
+  .note-editor-body textarea {
+    flex: 1; border: none; background: transparent; font-family: inherit; font-size: 15px;
+    color: #14181A; line-height: 1.6; resize: none;
+  }
+  .note-editor-body textarea:focus { outline: none; }
+  .note-editor-meta { font-size: 11.5px; color: #9BA39E; padding: 0 20px 16px; }
+
+  .job-status-badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 4px 11px; border-radius: 20px; margin-top: 6px; }
+  .visit-row-mini {
+    display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+  }
+  .visit-row-mini + .visit-row-mini { border-top: 1px solid #F2F4F3; }
+  .visit-row-mini .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .visit-row-mini .info { flex: 1; min-width: 0; }
+  .visit-row-mini .info .n { font-size: 13.5px; font-weight: 700; color: #14181A; }
+  .visit-row-mini .info .m { font-size: 11.5px; color: #9BA39E; margin-top: 1px; }
+  .visit-row-mini .chev { color: #C7CCC9; font-size: 16px; }
+
+  .part-row { display: flex; align-items: flex-start; gap: 12px; padding: 11px 16px; }
+  .part-row + .part-row { border-top: 1px solid #F2F4F3; }
+  .part-ic { width: 36px; height: 36px; border-radius: 10px; background: #F0F3F1; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; color: #6B7570; margin-top: 1px; }
+  .part-info { flex: 1; min-width: 0; }
+  .part-info .n { font-size: 13px; font-weight: 600; color: #14181A; }
+  .part-info .m { font-size: 11px; color: #9BA39E; margin-top: 1px; }
+  .part-links { display: flex; gap: 12px; margin-top: 5px; }
+  .part-links a { font-size: 10.5px; font-weight: 700; color: #0F6E56; text-decoration: none; }
+  /* Two independent pills, stacked: procurement status on top, consumption pin below it —
+     mirrors the real Ordered Parts block, which tracks these as two separate axes. */
+  .part-pills { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+  .part-status { font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+  .part-status.waiting { background: #F0F3F1; color: #40453F; }
+  .part-status.today { background: #FAEEDA; color: #854F0B; }
+  .part-status.late { background: #FCEBEB; color: #791F1F; }
+  .part-status.received { background: #EAF3DE; color: #27500A; }
+  .part-status.partial { background: #E6F1FB; color: #0C447C; }
+  .part-status.returned { background: #FCEBEB; color: #A83232; }
+  .part-consumption { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
+  .part-consumption.in_stock { background: #F0F3F1; color: #6B7570; }
+  .part-consumption.written_off { background: #E3E8FC; color: #3730A3; }
+  .part-action-btn {
+    width: 26px; height: 26px; border-radius: 50%; background: #EAF3DE; color: #27500A;
+    border: none; display: inline-flex; align-items: center; justify-content: center;
+    font-size: 12px; flex-shrink: 0;
+  }
+
+  .photo-strip { display: flex; gap: 10px; padding: 4px 16px 16px; overflow-x: auto; }
+  .photo-thumb {
+    width: 68px; height: 68px; border-radius: 14px; flex-shrink: 0; overflow: hidden;
+    background: linear-gradient(135deg, #E6F1FB, #DFF3EC);
+    display: flex; align-items: center; justify-content: center; color: #9BA39E; font-size: 20px;
+  }
+  .photo-add {
+    width: 68px; height: 68px; border-radius: 14px; flex-shrink: 0;
+    border: 1.5px dashed #C7CCC9; background: #FAFBFA;
+    display: flex; align-items: center; justify-content: center; color: #6B7570; font-size: 20px;
+  }
+
+  .toast {
+    position: absolute; left: 50%; bottom: 110px; transform: translateX(-50%) translateY(10px);
+    background: #14181A; color: #fff; font-size: 12.5px; font-weight: 600;
+    padding: 11px 18px; border-radius: 24px; white-space: nowrap;
+    display: flex; align-items: center; gap: 8px;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 110; box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="notch"></div>
+  <div class="statusbar"><span>9:41</span><span>●●● 5G 🔋</span></div>
+
+  <!-- DASHBOARD -->
+  <div class="screen active" id="dashboard">
+    <div class="header">
+      <div><h1>Good morning</h1><div class="sub">Monday, July 27</div></div>
+      <div class="avatar">VD</div>
+    </div>
+
+    <div class="install-banner" id="installBanner">
+      <i class="ti ti-download" style="font-size:18px;color:#fff"></i>
+      <div class="txt"><b>Install FieldFlow</b><span>Works offline, just like a native app</span></div>
+      <button onclick="installApp()">Install</button>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card accent"><div class="num">6</div><div class="lbl">visits today</div></div>
+      <div class="stat-card"><div class="num">$2,140</div><div class="lbl">revenue this week</div></div>
+      <div class="stat-card"><div class="num">3</div><div class="lbl">waiting on parts</div></div>
+    </div>
+
+    <div class="section-title"><h2>Up next</h2><a onclick="showScreen('jobs')">See all →</a></div>
+    <div class="job-card" onclick="openVisit('kathryn')">
+      <div class="job-time"><div class="t">10:00</div><div class="d">2h</div></div>
+      <div class="job-line" style="background:#0C447C"></div>
+      <div class="job-body">
+        <div class="name">Kathryn Ortiz</div>
+        <div class="addr">5406 Jacob Avenue, Polk City</div>
+        <span class="badge scheduled">Scheduled</span>
+      </div>
+    </div>
+    <div class="job-card" onclick="openVisit('noel')">
+      <div class="job-time"><div class="t">14:00</div><div class="d">2h</div></div>
+      <div class="job-line" style="background:#854F0B"></div>
+      <div class="job-body">
+        <div class="name">Noel Figuero</div>
+        <div class="addr">353 Marquee Drive, Kissimmee</div>
+        <span class="badge started">On the way</span>
+      </div>
+    </div>
+    <div class="job-card" onclick="openVisit('anthony_recall')">
+      <div class="job-time"><div class="t">16:30</div><div class="d">1h</div></div>
+      <div class="job-line" style="background:#791F1F"></div>
+      <div class="job-body">
+        <div class="name">Anthony Thompson</div>
+        <div class="addr">Grenelefe, Haines City</div>
+        <span class="badge recall">Recall</span>
+      </div>
+    </div>
+    <div style="height:100px"></div>
+  </div>
+
+  <!-- CALENDAR -->
+  <div class="screen" id="calendar">
+    <div class="header">
+      <div><h1>Calendar</h1><div class="sub">July 2026</div></div>
+      <div class="icon-btn"><i class="ti ti-menu-2"></i></div>
+    </div>
+    <div class="cal-strip">
+      <div class="cal-day" data-day="26" onclick="selectCalDay(this, 26)"><div class="dow">SUN</div><div class="num">26</div></div>
+      <div class="cal-day today" data-day="27" onclick="selectCalDay(this, 27)"><div class="dow">MON</div><div class="num">27</div><div class="dot"></div></div>
+      <div class="cal-day" data-day="28" onclick="selectCalDay(this, 28)"><div class="dow">TUE</div><div class="num">28</div></div>
+      <div class="cal-day" data-day="29" onclick="selectCalDay(this, 29)"><div class="dow">WED</div><div class="num">29</div><div class="dot"></div></div>
+      <div class="cal-day" data-day="30" onclick="selectCalDay(this, 30)"><div class="dow">THU</div><div class="num">30</div></div>
+      <div class="cal-day" data-day="31" onclick="selectCalDay(this, 31)"><div class="dow">FRI</div><div class="num">31</div></div>
+      <div class="cal-day" data-day="1" onclick="selectCalDay(this, 1)"><div class="dow">SAT</div><div class="num">1</div></div>
+    </div>
+
+    <div class="timeline">
+      <div id="timelineBody"></div>
+      <div id="calEmptyState" style="display:none; text-align:center; padding:32px 20px; color:#9BA39E; font-size:13px;">
+        <i class="ti ti-calendar-off" style="font-size:28px; display:block; margin-bottom:8px;"></i>No visits scheduled this day
+      </div>
+    </div>
+    <div style="height:100px"></div>
+  </div>
+
+  <!-- INVOICES -->
+  <div class="screen" id="invoices">
+    <div class="header">
+      <div><h1>Invoices</h1><div class="sub">12 this month</div></div>
+      <div class="icon-btn" onclick="openFabMenu()"><i class="ti ti-plus"></i></div>
+    </div>
+    <div class="inv-summary">
+      <div class="inv-pill"><div class="n">$4,820</div><div class="l">paid</div></div>
+      <div class="inv-pill"><div class="n">$650</div><div class="l">outstanding</div></div>
+      <div class="inv-pill"><div class="n">3</div><div class="l">overdue</div></div>
+    </div>
+    <div class="inv-card">
+      <div class="inv-head"><div><div class="cust">Kathryn Ortiz</div><div class="num">INV-0142 · Jul 27</div></div><div class="amt">$260</div></div>
+      <div class="item-tile"><div class="item-ic"><i class="ti ti-tool"></i></div><div class="item-info"><div class="n">Washer diagnostic</div><div class="q">1 unit</div><div class="desc">Washer stopped draining. Confirmed bad water inlet valve.</div></div><div class="item-price">$100</div></div>
+      <div class="item-tile"><div class="item-ic"><i class="ti ti-settings"></i></div><div class="item-info"><div class="n">Water inlet valve</div><div class="q">1 unit · WPW10121138</div><div class="desc">Replaced faulty valve with OEM part, tested fill cycle.</div></div><div class="item-price">$89</div></div>
+      <div class="item-tile"><div class="item-ic"><i class="ti ti-hammer"></i></div><div class="item-info"><div class="n">Labor</div><div class="q">0.5 hr</div><div class="desc">Removal, installation, and leak/drain test.</div></div><div class="item-price">$71</div></div>
+      <div class="inv-foot"><span class="paid due">Awaiting payment</span><button>Send</button></div>
+    </div>
+    <div class="inv-card">
+      <div class="inv-head"><div><div class="cust">Noel Figuero</div><div class="num">INV-0141 · Jul 25</div></div><div class="amt">$390</div></div>
+      <div class="item-tile"><div class="item-ic"><i class="ti ti-snowflake"></i></div><div class="item-info"><div class="n">Refrigerator repair</div><div class="q">1 unit</div><div class="desc">Fridge not cooling. Replaced compressor start relay, recharged line, verified temp overnight.</div></div><div class="item-price">$390</div></div>
+      <div class="inv-foot"><span class="paid ok">Paid</span><button>Receipt</button></div>
+    </div>
+    <div style="height:100px"></div>
+  </div>
+
+  <!-- JOBS -->
+  <div class="screen" id="jobs">
+    <div class="header">
+      <div><h1>Jobs</h1><div class="sub">18 open</div></div>
+      <div class="icon-btn" onclick="toggleJobsSearch()"><i class="ti ti-search" id="jobsSearchIcon"></i></div>
+    </div>
+    <div class="jobs-search-bar" id="jobsSearchBar">
+      <i class="ti ti-search" style="font-size:15px;color:#9BA39E"></i>
+      <input type="text" id="jobsSearchInput" placeholder="Search by customer, appliance, or city" oninput="applyJobsFilters()">
+    </div>
+    <div class="chip-row">
+      <div class="chip active" data-filter="all" onclick="filterJobs('all')">All</div>
+      <div class="chip" data-filter="today" onclick="filterJobs('today')">Today</div>
+      <div class="chip" data-filter="scheduled" onclick="filterJobs('scheduled')">Scheduled</div>
+      <div class="chip" data-filter="waiting" onclick="filterJobs('waiting')">Waiting parts</div>
+      <div class="chip" data-filter="completed" onclick="filterJobs('completed')">Completed</div>
+    </div>
+    <div class="jobrow" data-status="scheduled" data-today="true" data-waiting="false" onclick="openJobOverview('kathryn_job')">
+      <div class="dot" style="background:#0C447C"></div>
+      <div class="info"><div class="n">Kathryn Ortiz</div><div class="m">Whirlpool washer · Polk City · 1 visit</div></div>
+      <span class="badge scheduled">Scheduled</span><span class="chev">›</span>
+    </div>
+    <div class="jobrow" data-status="started" data-today="true" data-waiting="false" onclick="openJobOverview('noel_job')">
+      <div class="dot" style="background:#854F0B"></div>
+      <div class="info"><div class="n">Noel Figuero</div><div class="m">Refrigerator · Kissimmee · 1 visit</div></div>
+      <span class="badge started">On the way</span><span class="chev">›</span>
+    </div>
+    <div class="jobrow" data-status="recall" data-today="true" data-waiting="true" onclick="openJobOverview('anthony_job')">
+      <div class="dot" style="background:#791F1F"></div>
+      <div class="info"><div class="n">Anthony Thompson</div><div class="m">Dryer · Haines City · 2 visits</div></div>
+      <span class="badge recall">Recall</span><span class="chev">›</span>
+    </div>
+    <div class="jobrow" data-status="completed" data-today="false" data-waiting="false" onclick="openJobOverview('gregory_job')">
+      <div class="dot" style="background:#27500A"></div>
+      <div class="info"><div class="n">Gregory Novak</div><div class="m">Dishwasher · Poinciana · 1 visit</div></div>
+      <span class="badge completed">Completed</span><span class="chev">›</span>
+    </div>
+    <div class="jobrow" data-status="scheduled" data-today="false" data-waiting="true" onclick="openJobOverview('thomas_job')">
+      <div class="dot" style="background:#0C447C"></div>
+      <div class="info"><div class="n">Thomas Mulcahy</div><div class="m">Washer · Davenport · 1 visit</div></div>
+      <span class="badge scheduled">Scheduled</span><span class="chev">›</span>
+    </div>
+    <div id="jobsEmptyState" style="display:none; text-align:center; padding:40px 20px; color:#9BA39E; font-size:13px;">
+      <i class="ti ti-mood-empty" style="font-size:32px; display:block; margin-bottom:8px;"></i>No jobs match this filter
+    </div>
+    <div style="height:100px"></div>
+  </div>
+
+  <button class="fab" onclick="openFabMenu()"><i class="ti ti-plus"></i></button>
+
+  <div class="tabbar">
+    <button class="tab active" data-screen="dashboard" onclick="showScreen('dashboard')"><i class="ti ti-layout-dashboard ic"></i>Dashboard</button>
+    <button class="tab" data-screen="calendar" onclick="showScreen('calendar')"><i class="ti ti-calendar-event ic"></i>Calendar</button>
+    <button class="tab" data-screen="invoices" onclick="showScreen('invoices')"><i class="ti ti-file-invoice ic"></i>Invoices</button>
+    <button class="tab" data-screen="jobs" onclick="showScreen('jobs')"><i class="ti ti-clipboard-check ic"></i>Jobs</button>
+  </div>
+
+  <!-- ===== JOB OVERVIEW (fullscreen) ===== -->
+  <div class="visit-screen" id="jobOverviewScreen">
+    <div class="statusbar"><span>9:41</span><span>●●● 5G 🔋</span></div>
+    <div class="visit-scroll">
+      <div class="visit-top">
+        <div class="back" onclick="closeJobOverview()"><i class="ti ti-arrow-left"></i></div>
+        <div class="who">
+          <h1 id="joName">Kathryn Ortiz</h1>
+          <div class="jobno" id="joJobNo">Job #25462985 · Whirlpool washer</div>
+          <span class="job-status-badge badge scheduled" id="joStatus">Scheduled</span>
+        </div>
+      </div>
+
+      <div class="tile">
+        <div class="tile-head">
+          <div class="lt"><div class="ic-box"><i class="ti ti-building-store"></i></div><div><div class="ttl" id="joProjectName">PROJ-0016</div><div class="sub">Project</div></div></div>
+        </div>
+        <div class="kv-row"><span>Contact</span><span id="joContact">Kathryn Ortiz · (863) 555-0142</span></div>
+        <div class="kv-row"><span>Address</span><span class="addr-line" id="joAddress">5406 Jacob Avenue, Polk City, FL 33868<button class="pin-btn" onclick="openRouteModal()" title="Route"><i class="ti ti-map-pin" style="font-size:13px"></i></button></span></div>
+      </div>
+
+      <div class="tile" id="joBillingTile">
+        <div class="tile-head">
+          <div class="lt"><div class="ic-box"><i class="ti ti-receipt-2"></i></div><div><div class="ttl" id="joBillingNumber">SO-0016</div><div class="sub" id="joBillingType">Repair Order</div></div></div>
+          <span class="badge" id="joBillingStatus">Awaiting payment</span>
+        </div>
+        <div class="kv-row"><span>Total</span><span id="joBillingAmount">$260.00</span></div>
+      </div>
+
+      <div class="tile" id="joPartsTile">
+        <div class="tile-head">
+          <div class="lt"><div class="ic-box"><i class="ti ti-package"></i></div><div><div class="ttl">Ordered parts</div><div class="sub" id="joPartsCount">1 part</div></div></div>
+        </div>
+        <div id="joPartsList"></div>
+      </div>
+
+      <div class="tile">
+        <div class="tile-head">
+          <div class="lt"><div class="ic-box"><i class="ti ti-clipboard-check"></i></div><div><div class="ttl">Visits</div><div class="sub" id="joVisitCount">1 visit</div></div></div>
+          <button class="add-note-btn"><i class="ti ti-plus"></i></button>
+        </div>
+        <div id="joVisitList"></div>
+      </div>
+
+      <div style="height:32px"></div>
+    </div>
+  </div>
+
+  <!-- ===== VISIT DETAIL FULLSCREEN ===== -->
+  <div class="visit-screen" id="visitScreen">
+    <div class="statusbar"><span>9:41</span><span>●●● 5G 🔋</span></div>
+    <div class="visit-scroll">
+      <div class="visit-top">
+        <div class="back" onclick="closeVisit()"><i class="ti ti-arrow-left"></i></div>
+        <div class="who">
+          <h1 id="vName">Kathryn Ortiz</h1>
+          <div class="jobno" id="vJob">Job #25462985 · Whirlpool washer</div>
+          <span class="badge scheduled" id="vStatus" style="margin-top:6px">Scheduled</span>
+        </div>
+      </div>
+
+      <div class="sig-row">
+        <div class="sig-btn" onclick="goToJobBilling()"><i class="ti ti-receipt-2 ic"></i><span class="lbl" style="font-size:10.5px">Repair Order</span></div>
+        <div class="sig-btn" onclick="payForVisit()"><i class="ti ti-credit-card ic"></i><span class="lbl">Pay</span></div>
+        <div class="sig-btn"><i class="ti ti-signature ic"></i><span class="lbl">Approve</span></div>
+      </div>
+
+      <div class="tile timer-tile">
+        <div class="tile-head">
+          <div class="lt"><div class="ic-box"><i class="ti ti-clock-play" id="vTimerIcon"></i></div><div><div class="ttl">Start my time</div><div class="sub" id="vTimerStatus">Not started yet</div></div></div>
+          <div class="timer-btn-row">
+            <button class="go" id="vPlayBtn" onclick="toggleTimer()"><i class="ti ti-player-play" style="font-size:14px"></i></button>
+            <button class="go finish" onclick="finishVisit()" title="Finish visit"><i class="ti ti-check" style="font-size:16px"></i></button>
+          </div>
+        </div>
+        <div class="miles-note"><i class="ti ti-road"></i>0.0 mi tracked this visit</div>
+      </div>
+
+      <div class="tile">
+        <div class="tile-head">
+          <div class="lt"><div class="ic-box"><i class="ti ti-building-store"></i></div><div><div class="ttl">Kathryn Ortiz — PROJ-0016</div><div class="sub">Project</div></div></div>
+        </div>
+        <div class="kv-row"><span>Contact</span><span>Kathryn Ortiz · (863) 555-0142</span></div>
+        <div class="kv-row"><span>Address</span><span class="addr-line">5406 Jacob Avenue, Polk City, FL 33868<button class="pin-btn" onclick="openRouteModal()" title="Route to visit"><i class="ti ti-map-pin" style="font-size:13px"></i></button></span></div>
+        <div class="kv-row"><span>Phone</span><span><a href="tel:8635550142">(863) 555-0142</a></span></div>
+      </div>
+
+      <div class="tile">
+        <div class="tile-head">
+          <div class="lt"><div class="ic-box"><i class="ti ti-calendar-event"></i></div><div><div class="ttl">Schedule</div><div class="sub">Diagnosis visit</div></div></div>
+        </div>
+        <div class="kv-row"><span>Date</span><span>Mon, Jul 27, 2026</span></div>
+        <div class="kv-row"><span>Time</span><span>10:00 AM – 12:00 PM</span></div>
+        <div class="kv-row"><span>Technician</span><span>You</span></div>
+      </div>
+
+      <div class="tile">
+        <div class="tile-head">
+          <div class="lt"><div class="ic-box"><i class="ti ti-camera"></i></div><div><div class="ttl">Photos</div><div class="sub">3 attached</div></div></div>
+        </div>
+        <div class="photo-strip">
+          <div class="photo-thumb"><i class="ti ti-photo"></i></div>
+          <div class="photo-thumb"><i class="ti ti-photo"></i></div>
+          <div class="photo-thumb"><i class="ti ti-photo"></i></div>
+          <div class="photo-add"><i class="ti ti-camera-plus"></i></div>
+        </div>
+      </div>
+
+      <div class="tile">
+        <div class="tile-head">
+          <div class="lt"><div class="ic-box"><i class="ti ti-receipt-2"></i></div><div><div class="ttl">Repair Order</div><div class="sub">SO-0016 · lives on the job, not this visit</div></div></div>
+        </div>
+        <div class="item-tile"><div class="item-ic"><i class="ti ti-tool"></i></div><div class="item-info"><div class="n">Washer diagnostic</div><div class="q">1 unit</div><div class="desc">Washer stopped draining. Confirmed bad water inlet valve.</div></div><div class="item-price">$100</div></div>
+        <div class="item-tile"><div class="item-ic"><i class="ti ti-settings"></i></div><div class="item-info"><div class="n">Water inlet valve</div><div class="q">1 unit · WPW10121138</div><div class="desc">Replaced faulty valve with OEM part, tested fill cycle.</div></div><div class="item-price">$89</div></div>
+        <div class="item-tile"><div class="item-ic"><i class="ti ti-hammer"></i></div><div class="item-info"><div class="n">Labor</div><div class="q">0.5 hr</div><div class="desc">Removal, installation, and leak/drain test.</div></div><div class="item-price">$71</div></div>
+        <div class="inv-foot"><span class="paid due">Awaiting payment · $260.00</span><button onclick="goToJobBilling()">Open</button></div>
+      </div>
+
+      <div class="tile">
+        <div class="tile-head">
+          <div class="lt"><div class="ic-box"><i class="ti ti-notes"></i></div><div><div class="ttl">Notes</div><div class="sub">2 notes from technicians</div></div></div>
+          <button class="add-note-btn" onclick="openNoteEditor(null)"><i class="ti ti-plus"></i></button>
+        </div>
+        <div class="note-item" onclick="openNoteEditor(0)">
+          <div class="av">VD</div>
+          <div class="body"><b>You</b><span class="when">Today, 9:52 AM</span><p>Customer says washer stopped draining last Thursday. No leaks visible.</p></div>
+        </div>
+        <div class="note-item" onclick="openNoteEditor(1)">
+          <div class="av">VD</div>
+          <div class="body"><b>You</b><span class="when">Today, 10:14 AM</span><p>Confirmed bad water inlet valve. Ordering replacement part.</p></div>
+        </div>
+      </div>
+
+      <div style="height:32px"></div>
+    </div>
+  </div>  <!-- NOTE EDITOR (fullscreen) -->
+  <div class="note-editor" id="noteEditor">
+    <div class="statusbar"><span>9:41</span><span>●●● 5G 🔋</span></div>
+    <div class="note-editor-top">
+      <div class="lt">
+        <div class="back" onclick="closeNoteEditor()"><i class="ti ti-arrow-left"></i></div>
+        <h2 id="noteEditorTitle">New note</h2>
+      </div>
+      <button class="note-editor-save" onclick="closeNoteEditor()">Save</button>
+    </div>
+    <div class="note-editor-meta" id="noteEditorMeta"></div>
+    <div class="note-editor-body">
+      <textarea id="noteEditorText" placeholder="Write what you found, what you did, or what the customer said..."></textarea>
+    </div>
+  </div>
+
+  <!-- ROUTE TO VISIT MODAL -->
+  <div class="modal-overlay" id="routeModal" onclick="closeRouteModalBg(event)">
+    <div class="route-modal">
+      <div class="grabber"></div>
+      <h3>Route to visit</h3>
+      <div class="sub">5406 Jacob Avenue, Polk City, FL 33868</div>
+
+      <button class="route-option primary" onclick="routeToVisit(true)">
+        <div class="ic-box"><i class="ti ti-navigation"></i></div>
+        <div class="txt"><b>Route + start timer</b><span>Opens maps and starts your visit time</span></div>
+      </button>
+
+      <button class="route-option" onclick="routeToVisit(false)">
+        <div class="ic-box"><i class="ti ti-map-pin"></i></div>
+        <div class="txt"><b>Just route</b><span>Opens maps, timer stays off</span></div>
+      </button>
+
+      <button class="route-cancel" onclick="closeRouteModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- FAB CONTEXTUAL ACTION SHEET (content changes based on active tab) -->
+  <div class="modal-overlay" id="fabMenu" onclick="closeFabMenuBg(event)">
+    <div class="route-modal">
+      <div class="grabber"></div>
+      <h3 id="fabMenuTitle">New visit</h3>
+      <div class="sub" id="fabMenuSub">Schedule a visit for a customer</div>
+
+      <button class="route-option primary" onclick="fabPrimaryAction()">
+        <div class="ic-box"><i class="ti" id="fabMenuIcon"></i></div>
+        <div class="txt"><b id="fabMenuBtnLabel">Create visit</b><span id="fabMenuBtnSub"></span></div>
+      </button>
+
+      <button class="route-cancel" onclick="closeFabMenu()">Cancel</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.classList.toggle('active', t.getAttribute('data-screen') === id);
+  });
+}
+
+var jobsChipFilter = 'all';
+function filterJobs(filter) {
+  jobsChipFilter = filter;
+  document.querySelectorAll('#jobs .chip').forEach(function(c){
+    c.classList.toggle('active', c.getAttribute('data-filter') === filter);
+  });
+  applyJobsFilters();
+}
+
+function toggleJobsSearch() {
+  var bar = document.getElementById('jobsSearchBar');
+  var icon = document.getElementById('jobsSearchIcon');
+  var isOpen = bar.classList.toggle('open');
+  if (isOpen) {
+    icon.className = 'ti ti-x';
+    document.getElementById('jobsSearchInput').focus();
+  } else {
+    icon.className = 'ti ti-search';
+    document.getElementById('jobsSearchInput').value = '';
+    applyJobsFilters();
+  }
+}
+
+function applyJobsFilters() {
+  var query = document.getElementById('jobsSearchInput').value.trim().toLowerCase();
+  var rows = document.querySelectorAll('#jobs .jobrow');
+  var visibleCount = 0;
+  rows.forEach(function(row) {
+    var chipMatch = true;
+    if (jobsChipFilter === 'today') chipMatch = row.getAttribute('data-today') === 'true';
+    else if (jobsChipFilter === 'scheduled') chipMatch = row.getAttribute('data-status') === 'scheduled';
+    else if (jobsChipFilter === 'waiting') chipMatch = row.getAttribute('data-waiting') === 'true';
+    else if (jobsChipFilter === 'completed') chipMatch = row.getAttribute('data-status') === 'completed';
+    var searchMatch = !query || row.textContent.toLowerCase().indexOf(query) !== -1;
+    var match = chipMatch && searchMatch;
+    row.style.display = match ? 'flex' : 'none';
+    if (match) visibleCount++;
+  });
+  document.getElementById('jobsEmptyState').style.display = visibleCount === 0 ? 'block' : 'none';
+}
+
+var timelineHours = [9, 10, 12, 14, 16, 18];
+var timelineLabels = { 9: '9 AM', 10: '10 AM', 12: '12 PM', 14: '2 PM', 16: '4 PM', 18: '6 PM' };
+var calendarEvents = {
+  27: [
+    { hour: 10, color: 'blue', name: 'Kathryn Ortiz', sub: 'Diagnosis · Polk City', visit: 'kathryn' },
+    { hour: 14, color: 'amber', name: 'Noel Figuero', sub: 'Completion · Kissimmee', visit: 'noel' },
+    { hour: 16, color: 'teal', name: 'Anthony Thompson', sub: 'Recall · Haines City', visit: 'anthony_recall' }
+  ],
+  29: [
+    { hour: 9, color: 'blue', name: 'Thomas Mulcahy', sub: 'Diagnosis · Davenport', visit: 'thomas' }
+  ]
+};
+
+function renderTimeline(day) {
+  var events = calendarEvents[day] || [];
+  var html = '';
+  timelineHours.forEach(function (h) {
+    var ev = null;
+    for (var i = 0; i < events.length; i++) { if (events[i].hour === h) { ev = events[i]; break; } }
+    if (ev) {
+      html += '<div class="tl-row"><div class="tl-hour">' + timelineLabels[h] + '</div><div class="tl-track">' +
+        '<div class="tl-event ' + ev.color + '" onclick="openVisit(\'' + ev.visit + '\')"><b>' + ev.name + '</b><span>' + ev.sub + '</span></div>' +
+        '</div></div>';
+    } else {
+      html += '<div class="tl-row"><div class="tl-hour">' + timelineLabels[h] + '</div><div class="tl-track"></div></div>';
+    }
+  });
+  document.getElementById('timelineBody').innerHTML = html;
+  document.getElementById('calEmptyState').style.display = events.length === 0 ? 'block' : 'none';
+}
+
+function selectCalDay(el, day) {
+  document.querySelectorAll('#calendar .cal-day').forEach(function (d) { d.classList.remove('today'); });
+  el.classList.add('today');
+  renderTimeline(day);
+}
+
+var visits = {
+  kathryn: { name: 'Kathryn Ortiz', job: 'Job #25462985 · Whirlpool washer', jobKey: 'kathryn_job' },
+  noel: { name: 'Noel Figuero', job: 'Job #25488113 · Refrigerator', jobKey: 'noel_job' },
+  anthony_diag: { name: 'Anthony Thompson', job: 'Job #33981395 · Dryer', jobKey: 'anthony_job' },
+  anthony_recall: { name: 'Anthony Thompson', job: 'Job #33981395 · Dryer · Recall', jobKey: 'anthony_job' },
+  gregory: { name: 'Gregory Novak', job: 'Job #34031108 · Dishwasher', jobKey: 'gregory_job' },
+  thomas: { name: 'Thomas Mulcahy', job: 'Job #34022955 · Washer', jobKey: 'thomas_job' }
+};
+
+// Sales Order (shown to users as "Repair Order") / Sales Invoice (shown as "Invoice") live on
+// the Job (Project), never on the Visit — a visit can create or open one, but only ever holds a
+// reference back to the job's single billing record. The "Repair Order"/"Invoice" labels are the
+// real ERPNext Translation-based renames already in place on the backend (see handoff 9.5/9.6) —
+// internal type keys here ('order' / 'invoice') intentionally stay the plain ERPNext terms.
+// Flow: the Repair Order collects deposits/payments while items can still change (diagnosis,
+// parts) → once the job is fully done and paid, it's converted to an Invoice for accounting + parts write-off.
+var jobs = {
+  kathryn_job: {
+    customer: 'Kathryn Ortiz', jobNo: 'Job #25462985 · Whirlpool washer', status: 'scheduled', statusLabel: 'Scheduled',
+    project: 'PROJ-0016', contact: 'Kathryn Ortiz · (863) 555-0142', address: '5406 Jacob Avenue, Polk City, FL 33868',
+    billing: { type: 'order', number: 'SO-0016', status: 'awaiting_payment', statusLabel: 'Awaiting payment', amount: '$260.00' },
+    visitList: [{ key: 'kathryn', color: '#0C447C', type: 'Diagnosis visit', when: 'Mon, Jul 27 · 10:00 AM', status: 'scheduled', statusLabel: 'Scheduled' }]
+  },
+  noel_job: {
+    customer: 'Noel Figuero', jobNo: 'Job #25488113 · Refrigerator', status: 'started', statusLabel: 'On the way',
+    project: 'PROJ-0017', contact: 'Noel Figuero · (321) 555-0198', address: '353 Marquee Drive, Kissimmee, FL 34758',
+    billing: { type: 'invoice', number: 'INV-0141', status: 'paid', statusLabel: 'Paid', amount: '$390.00' },
+    visitList: [{ key: 'noel', color: '#854F0B', type: 'Completion visit', when: 'Mon, Jul 27 · 2:00 PM', status: 'started', statusLabel: 'On the way' }]
+  },
+  anthony_job: {
+    customer: 'Anthony Thompson', jobNo: 'Job #33981395 · Dryer', status: 'recall', statusLabel: 'Recall',
+    project: 'PROJ-0012', contact: 'Anthony Thompson · (863) 555-0177', address: 'Grenelefe, Haines City, FL 33844',
+    billing: { type: 'order', number: 'SO-0012', status: 'partial', statusLabel: 'Deposit paid · $150 of $410', amount: '$410.00' },
+    // Order → return → reorder example (mirrors the real sign-bucketed pairing confirmed live
+    // on PROJ-0019 — same item_code across 3 rows: Received → Returned → Received again).
+    parts: [
+      { name: 'Heating Element', code: 'WP3387747', qty: '1 unit', supplier: 'Reliable Parts', status: 'returned', statusLabel: 'Returned', purchaseInvoice: 'ACC-PINV-2026-00031' },
+      { name: 'Heating Element (replacement)', code: 'WP3387747', qty: '1 unit', supplier: 'Reliable Parts', status: 'late', statusLabel: 'Late · ETA Jul 25', purchaseInvoice: 'ACC-PINV-2026-00038' },
+      { name: 'Thermal Fuse', code: 'WP3392519', qty: '1 unit', supplier: 'Reliable Parts', status: 'received', statusLabel: 'Received', consumption: 'in_stock', purchaseInvoice: 'ACC-PINV-2026-00032', purchaseReceipt: 'PREC-2026-00019' }
+    ],
+    visitList: [
+      { key: 'anthony_diag', color: '#27500A', type: 'Diagnosis visit', when: 'Fri, Jul 24 · 1:00 PM', status: 'completed', statusLabel: 'Completed' },
+      { key: 'anthony_recall', color: '#791F1F', type: 'Recall visit', when: 'Mon, Jul 27 · 4:30 PM', status: 'recall', statusLabel: 'Recall' }
+    ]
+  },
+  gregory_job: {
+    customer: 'Gregory Novak', jobNo: 'Job #34031108 · Dishwasher', status: 'completed', statusLabel: 'Completed',
+    project: 'PROJ-0020', contact: 'Gregory Novak · (863) 555-0133', address: 'Poinciana, FL 34759',
+    billing: { type: 'invoice', number: 'INV-0139', status: 'paid', statusLabel: 'Paid', amount: '$310.00' },
+    visitList: [{ key: 'gregory', color: '#27500A', type: 'Completion visit', when: 'Thu, Jul 23 · 11:00 AM', status: 'completed', statusLabel: 'Completed' }]
+  },
+  thomas_job: {
+    customer: 'Thomas Mulcahy', jobNo: 'Job #34022955 · Washer', status: 'scheduled', statusLabel: 'Scheduled',
+    project: 'PROJ-0021', contact: 'Thomas Mulcahy · (863) 555-0164', address: 'Davenport, FL 33837',
+    billing: { type: 'order', number: 'SO-0021', status: 'draft', statusLabel: 'Draft · waiting on parts', amount: 'TBD' },
+    parts: [
+      { name: 'Water Inlet Valve', code: 'WPW10121138', qty: '1 unit', supplier: 'Encompass Supply', status: 'waiting', statusLabel: 'ETA Jul 30', purchaseInvoice: 'ACC-PINV-2026-00041' }
+    ],
+    visitList: [{ key: 'thomas', color: '#0C447C', type: 'Diagnosis visit', when: 'Wed, Jul 29 · 9:00 AM', status: 'scheduled', statusLabel: 'Scheduled' }]
+  }
+};
+
+function openJobOverview(jobKey) {
+  var j = jobs[jobKey];
+  document.getElementById('joName').textContent = j.customer;
+  document.getElementById('joJobNo').textContent = j.jobNo;
+  var statusEl = document.getElementById('joStatus');
+  statusEl.textContent = j.statusLabel;
+  statusEl.className = 'job-status-badge badge ' + j.status;
+  document.getElementById('joProjectName').textContent = j.customer + ' — ' + j.project;
+  document.getElementById('joContact').textContent = j.contact;
+  document.getElementById('joAddress').innerHTML = j.address + '<button class="pin-btn" onclick="openRouteModal()" title="Route"><i class="ti ti-map-pin" style="font-size:13px"></i></button>';
+
+  var b = j.billing;
+  document.getElementById('joBillingNumber').textContent = b.number;
+  document.getElementById('joBillingType').textContent = b.type === 'invoice' ? 'Invoice' : 'Repair Order';
+  var billingStatusEl = document.getElementById('joBillingStatus');
+  billingStatusEl.textContent = b.statusLabel;
+  billingStatusEl.className = 'badge ' + b.status;
+  document.getElementById('joBillingAmount').textContent = b.amount;
+
+  var partsTile = document.getElementById('joPartsTile');
+  if (j.parts && j.parts.length) {
+    partsTile.style.display = '';
+    document.getElementById('joPartsCount').textContent = j.parts.length + (j.parts.length === 1 ? ' part' : ' parts');
+    var partsHtml = '';
+    j.parts.forEach(function (p, idx) {
+      // Links out to the source documents — mirrors the real Ordered Parts block, where every
+      // row links to its own Open Purchase Receipt / Open Purchase Invoice (confirmed live on
+      // PROJ-0019). Simulated here with a toast since there's no real ERPNext behind this mock.
+      var linksHtml = '<div class="part-links">';
+      if (p.purchaseInvoice) linksHtml += '<a href="javascript:void(0)" onclick="showToast(\'Would open Purchase Invoice · ' + p.purchaseInvoice + '\')">Invoice ↗</a>';
+      if (p.purchaseReceipt) linksHtml += '<a href="javascript:void(0)" onclick="showToast(\'Would open Purchase Receipt · ' + p.purchaseReceipt + '\')">Receipt ↗</a>';
+      linksHtml += '</div>';
+
+      // Two independent pills: procurement status (top) and, only once actually received,
+      // a separate consumption pin (in stock / written off) — see handoff 9.6.
+      var consumptionHtml = (p.status === 'received' && p.consumption)
+        ? '<span class="part-consumption ' + p.consumption + '">' + (p.consumption === 'written_off' ? 'Written off' : 'In stock') + '</span>'
+        : '';
+      var actionHtml = '';
+      if (p.status === 'received' && p.consumption === 'in_stock') {
+        actionHtml = '<button class="part-action-btn" onclick="markPartWrittenOff(\'' + jobKey + '\', ' + idx + ')" title="Mark installed"><i class="ti ti-tool"></i></button>';
+      }
+
+      partsHtml += '<div class="part-row">' +
+        '<div class="part-ic"><i class="ti ti-package"></i></div>' +
+        '<div class="part-info"><div class="n">' + p.name + '</div><div class="m">' + p.qty + ' · ' + p.code + ' · ' + p.supplier + '</div>' + linksHtml + '</div>' +
+        '<div class="part-pills"><span class="part-status ' + p.status + '">' + p.statusLabel + '</span>' + consumptionHtml + actionHtml + '</div>' +
+        '</div>';
+    });
+    document.getElementById('joPartsList').innerHTML = partsHtml;
+  } else {
+    partsTile.style.display = 'none';
+  }
+
+  document.getElementById('joVisitCount').textContent = j.visitList.length + (j.visitList.length === 1 ? ' visit' : ' visits');
+
+  var listHtml = '';
+  j.visitList.forEach(function (v) {
+    listHtml += '<div class="visit-row-mini" onclick="openVisit(\'' + v.key + '\')">' +
+      '<div class="dot" style="background:' + v.color + '"></div>' +
+      '<div class="info"><div class="n">' + v.type + '</div><div class="m">' + v.when + '</div></div>' +
+      '<span class="badge ' + v.status + '">' + v.statusLabel + '</span>' +
+      '<span class="chev">›</span></div>';
+  });
+  document.getElementById('joVisitList').innerHTML = listHtml;
+
+  document.getElementById('jobOverviewScreen').classList.add('open');
+}
+function closeJobOverview() {
+  document.getElementById('jobOverviewScreen').classList.remove('open');
+}
+
+var currentVisitJobKey = 'kathryn_job';
+function openVisit(key) {
+  var v = visits[key] || visits.kathryn;
+  currentVisitJobKey = v.jobKey || 'kathryn_job';
+  document.getElementById('vName').textContent = v.name;
+  document.getElementById('vJob').textContent = v.job;
+  visitTimerRunning = false;
+  document.getElementById('vPlayBtn').querySelector('i').className = 'ti ti-player-play';
+  document.getElementById('vTimerStatus').textContent = 'Not started yet';
+  var statusBadge = document.getElementById('vStatus');
+  statusBadge.textContent = 'Scheduled';
+  statusBadge.className = 'badge scheduled';
+  document.getElementById('visitScreen').classList.add('open');
+}
+var visitTimerRunning = false;
+function toggleTimer() {
+  visitTimerRunning = !visitTimerRunning;
+  var icon = document.getElementById('vPlayBtn').querySelector('i');
+  var statusEl = document.getElementById('vTimerStatus');
+  if (visitTimerRunning) {
+    icon.className = 'ti ti-player-pause';
+    icon.style.fontSize = '14px';
+    statusEl.textContent = 'In progress';
+  } else {
+    icon.className = 'ti ti-player-play';
+    icon.style.fontSize = '14px';
+    statusEl.textContent = 'Paused';
+  }
+}
+function finishVisit() {
+  visitTimerRunning = false;
+  var icon = document.getElementById('vPlayBtn').querySelector('i');
+  icon.className = 'ti ti-player-play';
+  icon.style.fontSize = '14px';
+  document.getElementById('vTimerStatus').textContent = 'Completed';
+  var statusBadge = document.getElementById('vStatus');
+  statusBadge.textContent = 'Completed';
+  statusBadge.className = 'badge completed';
+}
+
+function closeVisit() {
+  document.getElementById('visitScreen').classList.remove('open');
+}
+
+function goToJobBilling() {
+  closeVisit();
+  openJobOverview(currentVisitJobKey);
+}
+function payForVisit() {
+  var b = jobs[currentVisitJobKey].billing;
+  var label = b.type === 'invoice' ? b.number : b.number + ' (repair order)';
+  showToast('Payment link sent · ' + label);
+}
+
+// Simulates the mobile "issue part" action: creates + submits a Stock Entry (Material Issue)
+// against this job's Project (section 9.6 of the handoff) — no new field/doctype needed, since
+// the real Ordered Parts block computes "Written Off" live from the existence of that Stock
+// Entry (merged with Sales Invoice update_stock=1, the other consumption source). Procurement
+// status (`status`) stays "received" — only the separate `consumption` pin flips, matching the
+// real two-pill model confirmed live on PROJ-0019. Reopening a Completed project for a recall is
+// a backend concern (section 9.6), simulated here only as a toast, not an actual status change.
+function markPartWrittenOff(jobKey, partIndex) {
+  var job = jobs[jobKey];
+  var part = job.parts[partIndex];
+  var wasCompleted = job.status === 'completed';
+  part.consumption = 'written_off';
+  openJobOverview(jobKey);
+  var msg = 'Stock Entry created · ' + part.name + ' written off';
+  if (wasCompleted) msg = 'Project reopened for recall · ' + msg;
+  showToast(msg);
+}
+
+var noteData = [
+  { author: 'You', when: 'Today, 9:52 AM', text: 'Customer says washer stopped draining last Thursday. No leaks visible.' },
+  { author: 'You', when: 'Today, 10:14 AM', text: 'Confirmed bad water inlet valve. Ordering replacement part.' }
+];
+function openNoteEditor(index) {
+  var titleEl = document.getElementById('noteEditorTitle');
+  var metaEl = document.getElementById('noteEditorMeta');
+  var textEl = document.getElementById('noteEditorText');
+  if (index === null) {
+    titleEl.textContent = 'New note';
+    metaEl.textContent = '';
+    textEl.value = '';
+  } else {
+    var n = noteData[index];
+    titleEl.textContent = 'Edit note';
+    metaEl.textContent = n.author + ' · ' + n.when;
+    textEl.value = n.text;
+  }
+  document.getElementById('noteEditor').classList.add('open');
+  textEl.focus();
+}
+function closeNoteEditor() {
+  document.getElementById('noteEditor').classList.remove('open');
+}
+function openRouteModal() {
+  document.getElementById('routeModal').classList.add('open');
+}
+function closeRouteModal() {
+  document.getElementById('routeModal').classList.remove('open');
+}
+function closeRouteModalBg(e) {
+  if (e.target.id === 'routeModal') closeRouteModal();
+}
+function routeToVisit(startTimer) {
+  var address = '5406 Jacob Avenue, Polk City, FL 33868';
+  var url = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(address);
+  window.open(url, '_blank');
+  if (startTimer) {
+    document.querySelector('.timer-tile .sub').textContent = 'In progress';
+  }
+  closeRouteModal();
+}
+
+var fabConfig = {
+  visit: {
+    title: 'New visit', sub: 'Schedule a visit for a customer',
+    icon: 'ti-calendar-plus', btnLabel: 'Create visit',
+    btnSub: "Creates a new job automatically if one doesn't exist yet",
+    toast: 'Visit created'
+  },
+  invoice: {
+    title: 'New repair order', sub: 'Bill a customer for parts or labor',
+    icon: 'ti-receipt-2', btnLabel: 'Create repair order',
+    btnSub: 'Starts a Repair Order you can collect a deposit against — becomes an Invoice once the job is done',
+    toast: 'Repair order created'
+  },
+  job: {
+    title: 'New job', sub: 'Create a job for a customer',
+    icon: 'ti-briefcase', btnLabel: 'Create job',
+    btnSub: 'Sets up a new project you can add visits to',
+    toast: 'Job created'
+  }
+};
+var fabContext = 'visit';
+
+function getActiveScreen() {
+  var active = document.querySelector('.screen.active');
+  return active ? active.id : 'dashboard';
+}
+
+function openFabMenu() {
+  var screen = getActiveScreen();
+  fabContext = (screen === 'invoices') ? 'invoice' : (screen === 'jobs') ? 'job' : 'visit';
+  var cfg = fabConfig[fabContext];
+  document.getElementById('fabMenuTitle').textContent = cfg.title;
+  document.getElementById('fabMenuSub').textContent = cfg.sub;
+  document.getElementById('fabMenuIcon').className = 'ti ' + cfg.icon;
+  document.getElementById('fabMenuBtnLabel').textContent = cfg.btnLabel;
+  document.getElementById('fabMenuBtnSub').textContent = cfg.btnSub;
+  document.getElementById('fabMenu').classList.add('open');
+}
+function closeFabMenu() {
+  document.getElementById('fabMenu').classList.remove('open');
+}
+function closeFabMenuBg(e) {
+  if (e.target.id === 'fabMenu') closeFabMenu();
+}
+function fabPrimaryAction() {
+  var cfg = fabConfig[fabContext];
+  closeFabMenu();
+  showToast(cfg.toast);
+}
+
+var toastTimer = null;
+function showToast(msg) {
+  var toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () {
+    toast.classList.remove('show');
+  }, 2200);
+}
+
+renderTimeline(27);
+
+// ===== PWA install =====
+// Registering the service worker / getting a real beforeinstallprompt only works when this
+// file is served over http(s) (e.g. GitHub Pages, Netlify, the real domain) — opening it as a
+// local file:// won't trigger installability. See handoff section 10 for hosting notes.
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('service-worker.js').catch(function () { /* ignore in unsupported contexts */ });
+  });
+}
+
+var deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', function (e) {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+});
+window.addEventListener('appinstalled', function () {
+  deferredInstallPrompt = null;
+  var banner = document.getElementById('installBanner');
+  if (banner) banner.style.display = 'none';
+  showToast('FieldFlow installed');
+});
+if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+  var existingBanner = document.getElementById('installBanner');
+  if (existingBanner) existingBanner.style.display = 'none';
+}
+
+function installApp() {
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then(function (choice) {
+      deferredInstallPrompt = null;
+      if (choice.outcome !== 'accepted') showToast('Install dismissed');
+    });
+  } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
+    showToast('iOS: tap Share → Add to Home Screen');
+  } else {
+    showToast('Already installed, or open this page in Chrome to install');
+  }
+}
+</script>
+
+</body>
+</html>
