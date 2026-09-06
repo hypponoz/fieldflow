@@ -3,7 +3,7 @@
 // everything else (fonts, icon webfont) falls back to the network.
 // Bump CACHE_NAME (v1 -> v2 -> ...) every time fieldflow_prototype.html changes, otherwise
 // installed clients keep serving the old cached copy forever — see handoff section 10.5.
-const CACHE_NAME = 'fieldflow-shell-v3';
+const CACHE_NAME = 'fieldflow-shell-v4';
 const SHELL_FILES = [
   './fieldflow_prototype.html',
   './manifest.json'

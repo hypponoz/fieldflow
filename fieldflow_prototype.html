@@ -441,6 +441,28 @@
     z-index: 110; box-shadow: 0 10px 24px rgba(0,0,0,0.22);
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ===== LIVE LOGIN (only shown when hosted on the real ERP domain — see handoff 12) ===== */
+  .login-screen { z-index: 200; justify-content: center; }
+  .login-box { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 32px 28px; }
+  .login-logo {
+    width: 60px; height: 60px; border-radius: 16px; background: #0F6E56; color: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 26px; margin: 0 auto 16px;
+  }
+  .login-title { font-family: 'Space Grotesk', sans-serif; font-size: 21px; font-weight: 700; text-align: center; color: #14181A; }
+  .login-sub { font-size: 12.5px; color: #6B7570; text-align: center; margin-top: 4px; margin-bottom: 28px; }
+  .login-field {
+    width: 100%; border: 1px solid #E1E5E2; background: #fff; border-radius: 12px;
+    padding: 13px 14px; font-size: 14px; font-family: inherit; color: #14181A; margin-bottom: 10px;
+  }
+  .login-field::placeholder { color: #9BA39E; }
+  .login-btn {
+    width: 100%; border: none; background: #0F6E56; color: #fff; border-radius: 12px;
+    padding: 13px; font-size: 14px; font-weight: 700; font-family: inherit; margin-top: 6px;
+  }
+  .login-btn[disabled] { opacity: 0.6; }
+  .login-error { color: #A83232; font-size: 12.5px; margin-top: 12px; text-align: center; display: none; }
+  .login-hint { font-size: 11.5px; color: #9BA39E; text-align: center; margin-top: 18px; }
 </style>
 </head>
 <body>
@@ -449,11 +471,25 @@
   <div class="notch"></div>
   <div class="statusbar"><span>9:41</span><span>●●● 5G 🔋</span></div>
 
+  <!-- LIVE LOGIN — only ever opened when isLive is true (real ERP domain), see handoff 12 -->
+  <div class="visit-screen login-screen" id="loginScreen">
+    <div class="login-box">
+      <div class="login-logo"><i class="ti ti-tool"></i></div>
+      <div class="login-title">FieldFlow</div>
+      <div class="login-sub">Sign in with your ERP account</div>
+      <input type="email" class="login-field" id="loginUser" placeholder="Email" autocomplete="username">
+      <input type="password" class="login-field" id="loginPass" placeholder="Password" autocomplete="current-password">
+      <button class="login-btn" id="loginBtn" onclick="doLogin()">Sign in</button>
+      <div class="login-error" id="loginError"></div>
+      <div class="login-hint">Connected to timefeat.v.frappe.cloud</div>
+    </div>
+  </div>
+
   <!-- DASHBOARD -->
   <div class="screen active" id="dashboard">
     <div class="header">
-      <div><h1>Good morning</h1><div class="sub">Monday, July 27</div></div>
-      <div class="avatar">VD</div>
+      <div><h1 id="dashGreeting">Good morning</h1><div class="sub" id="dashDate">Monday, July 27</div></div>
+      <div class="avatar" id="dashAvatar" onclick="avatarTap()">VD</div>
     </div>
 
     <div class="install-banner" id="installBanner">
@@ -463,12 +499,13 @@
     </div>
 
     <div class="stats-row">
-      <div class="stat-card accent"><div class="num">6</div><div class="lbl">visits today</div></div>
-      <div class="stat-card"><div class="num">$2,140</div><div class="lbl">revenue this week</div></div>
-      <div class="stat-card"><div class="num">3</div><div class="lbl">waiting on parts</div></div>
+      <div class="stat-card accent"><div class="num" id="dashStatVisits">6</div><div class="lbl">visits today</div></div>
+      <div class="stat-card"><div class="num" id="dashStatRevenue">$2,140</div><div class="lbl">revenue this week</div></div>
+      <div class="stat-card"><div class="num" id="dashStatParts">3</div><div class="lbl">waiting on parts</div></div>
     </div>
 
     <div class="section-title"><h2>Up next</h2><a onclick="showScreen('jobs')">See all →</a></div>
+    <div id="upNextList">
     <div class="job-card" onclick="openVisit('kathryn')">
       <div class="job-time"><div class="t">10:00</div><div class="d">2h</div></div>
       <div class="job-line" style="background:#0C447C"></div>
@@ -495,6 +532,7 @@
         <div class="addr">Grenelefe, Haines City</div>
         <span class="badge recall">Recall</span>
       </div>
+    </div>
     </div>
     <div style="height:100px"></div>
   </div>
@@ -1235,6 +1273,179 @@ function installApp() {
   } else {
     showToast('Already installed, or open this page in Chrome to install');
   }
+}
+
+// ===================================================================
+// LIVE ERP INTEGRATION (added 2026-09-05, see handoff section 12)
+// Only activates when this file is served from the real ERP domain
+// (timefeat.v.frappe.cloud, hosted as a public File — no bench/code
+// access needed, see handoff). The GitHub Pages copy keeps hostname
+// !== LIVE_HOST, so it stays the pure offline mock, unchanged.
+// Read-only for now: today's real Service Visits for the logged-in
+// technician populate the Dashboard. Everything else (Jobs, Invoices,
+// Calendar, parts, billing numbers) is still the mock data — see the
+// handoff for exactly what's wired vs. still simulated.
+// ===================================================================
+var LIVE_HOST = 'timefeat.v.frappe.cloud';
+var isLive = (location.hostname === LIVE_HOST);
+
+var Api = {
+  async login(usr, pwd) {
+    var body = new URLSearchParams();
+    body.set('usr', usr);
+    body.set('pwd', pwd);
+    var r = await fetch('/api/method/login', { method: 'POST', body: body, credentials: 'same-origin' });
+    if (!r.ok) throw new Error('login failed');
+    return r.json();
+  },
+  async logout() {
+    try { await fetch('/api/method/logout', { credentials: 'same-origin' }); } catch (e) {}
+  },
+  async getLoggedUser() {
+    try {
+      var r = await fetch('/api/method/frappe.auth.get_logged_user', { credentials: 'same-origin' });
+      if (!r.ok) return null;
+      var data = await r.json();
+      return data.message;
+    } catch (e) { return null; }
+  },
+  async getList(doctype, opts) {
+    opts = opts || {};
+    var params = new URLSearchParams();
+    params.set('doctype', doctype);
+    if (opts.filters) params.set('filters', JSON.stringify(opts.filters));
+    if (opts.fields) params.set('fields', JSON.stringify(opts.fields));
+    if (opts.order_by) params.set('order_by', opts.order_by);
+    if (opts.limit_page_length) params.set('limit_page_length', String(opts.limit_page_length));
+    var r = await fetch('/api/method/frappe.client.get_list?' + params.toString(), { credentials: 'same-origin' });
+    if (!r.ok) throw new Error('get_list failed: ' + r.status);
+    var data = await r.json();
+    return data.message || [];
+  }
+};
+
+function frappeToday() {
+  var d = new Date();
+  var mm = String(d.getMonth() + 1).padStart(2, '0');
+  var dd = String(d.getDate()).padStart(2, '0');
+  return d.getFullYear() + '-' + mm + '-' + dd;
+}
+
+var LIVE_STATUS_BADGE = {
+  'Scheduled': ['scheduled', 'Scheduled'], 'Assigned': ['scheduled', 'Assigned'],
+  'On The Way': ['started', 'On the way'], 'Started': ['started', 'In progress'],
+  'Diagnosed': ['scheduled', 'Diagnosed'], 'Waiting Parts': ['waiting', 'Waiting parts'],
+  'Ready for Completion': ['scheduled', 'Ready for completion'], 'Completed': ['completed', 'Completed'],
+  'Canceled': ['completed', 'Canceled'], 'Recall': ['recall', 'Recall']
+};
+var LIVE_LINE_COLORS = ['#0C447C', '#854F0B', '#791F1F', '#27500A', '#3730A3'];
+
+async function doLogin() {
+  var user = document.getElementById('loginUser').value.trim();
+  var pass = document.getElementById('loginPass').value;
+  var errEl = document.getElementById('loginError');
+  var btn = document.getElementById('loginBtn');
+  errEl.style.display = 'none';
+  if (!user || !pass) {
+    errEl.textContent = 'Enter your email and password.';
+    errEl.style.display = 'block';
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = 'Signing in…';
+  try {
+    await Api.login(user, pass);
+    document.getElementById('loginScreen').classList.remove('open');
+    bootLiveApp(user);
+  } catch (e) {
+    errEl.textContent = 'Sign in failed — check your email and password.';
+    errEl.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Sign in';
+  }
+}
+
+function avatarTap() {
+  if (!isLive) return;
+  if (confirm('Sign out of FieldFlow?')) {
+    Api.logout().then(function () { location.reload(); });
+  }
+}
+
+async function bootLiveApp(user) {
+  document.getElementById('dashAvatar').textContent = (user[0] || '?').toUpperCase();
+  var now = new Date();
+  document.getElementById('dashDate').textContent = now.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+  try {
+    var today = frappeToday();
+    var list = await Api.getList('Service Visit', {
+      filters: [['technician', '=', user], ['scheduled_start', '>=', today + ' 00:00:00'], ['scheduled_start', '<=', today + ' 23:59:59']],
+      fields: ['name', 'project', 'customer', 'visit_type', 'status', 'scheduled_start', 'scheduled_end'],
+      order_by: 'scheduled_start asc',
+      limit_page_length: 50
+    });
+    document.getElementById('dashStatVisits').textContent = list.length;
+    document.getElementById('dashStatRevenue').textContent = '—';
+    document.getElementById('dashStatParts').textContent = '—';
+    renderLiveUpNext(list);
+  } catch (e) {
+    console.error('FieldFlow: failed to load live visits', e);
+    showToast('Could not reach the ERP — showing nothing for now');
+    document.getElementById('upNextList').innerHTML = '<div style="padding:24px 20px;color:#9BA39E;font-size:13px;text-align:center;">Could not load today’s visits.</div>';
+  }
+}
+
+function renderLiveUpNext(list) {
+  var container = document.getElementById('upNextList');
+  if (!list.length) {
+    container.innerHTML = '<div style="padding:24px 20px;color:#9BA39E;font-size:13px;text-align:center;">No visits scheduled for you today.</div>';
+    return;
+  }
+  var html = '';
+  list.forEach(function (sv, idx) {
+    var key = 'live_' + sv.name;
+    var jobKey = 'live_job_' + sv.project;
+    var badge = LIVE_STATUS_BADGE[sv.status] || ['scheduled', sv.status];
+    var color = LIVE_LINE_COLORS[idx % LIVE_LINE_COLORS.length];
+    var start = sv.scheduled_start ? new Date(sv.scheduled_start.replace(' ', 'T')) : null;
+    var end = sv.scheduled_end ? new Date(sv.scheduled_end.replace(' ', 'T')) : null;
+    var timeLabel = start ? start.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }) : '--:--';
+    var durLabel = (start && end) ? Math.round((end - start) / 3600000) + 'h' : '';
+    var jobNo = sv.project + ' · ' + (sv.visit_type || 'Visit');
+
+    // Populate the same shape openVisit()/openJobOverview() expect, so tapping a real
+    // visit reuses the existing detail screens. Billing/parts/notes aren't wired to real
+    // data yet — left absent so those sections show their normal empty/hidden state
+    // instead of fabricated numbers (see handoff 12).
+    visits[key] = { name: sv.customer, job: jobNo, jobKey: jobKey };
+    jobs[jobKey] = {
+      customer: sv.customer, jobNo: jobNo, status: badge[0], statusLabel: badge[1],
+      project: sv.project, contact: sv.customer, address: 'Not loaded in this preview',
+      billing: { type: 'order', number: '—', status: 'unknown', statusLabel: 'Not available in this preview', amount: '—' },
+      visitList: [{ key: key, color: color, type: sv.visit_type || 'Visit', when: timeLabel, status: badge[0], statusLabel: badge[1] }]
+    };
+
+    html += '<div class="job-card" onclick="openVisit(\'' + key + '\')">' +
+      '<div class="job-time"><div class="t">' + timeLabel + '</div><div class="d">' + durLabel + '</div></div>' +
+      '<div class="job-line" style="background:' + color + '"></div>' +
+      '<div class="job-body">' +
+      '<div class="name">' + sv.customer + '</div>' +
+      '<div class="addr">' + jobNo + '</div>' +
+      '<span class="badge ' + badge[0] + '">' + badge[1] + '</span>' +
+      '</div></div>';
+  });
+  container.innerHTML = html;
+}
+
+if (isLive) {
+  document.getElementById('loginScreen').classList.add('open');
+  Api.getLoggedUser().then(function (u) {
+    if (u && u !== 'Guest') {
+      document.getElementById('loginScreen').classList.remove('open');
+      bootLiveApp(u);
+    }
+  });
 }
 </script>
 
