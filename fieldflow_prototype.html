@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>FieldFlow — prototype</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -68,6 +68,25 @@
   .screen::-webkit-scrollbar { display: none; }
   .screen { display: none; }
   .screen.active { display: block; }
+
+  /* On a real phone (or the installed PWA) there's no need for a fake
+     bezel/notch/status-bar — the real device already has its own. This
+     mockup frame is only useful when previewing the prototype on a
+     desktop screen, so it's disabled below that width. */
+  @media (max-width: 480px) {
+    body { padding: 0; background: #F7F8F7; }
+    .phone {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .notch, .statusbar { display: none; }
+  }
 
   .header {
     padding: 4px 20px 16px;
