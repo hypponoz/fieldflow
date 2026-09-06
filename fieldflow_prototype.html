@@ -17,6 +17,21 @@
   if (location.hostname === 'timefeat.v.frappe.cloud') {
     document.getElementById('manifestLink').setAttribute('href', '/files/manifest.json');
     document.getElementById('appleTouchIconLink').setAttribute('href', '/files/apple-touch-icon.png');
+
+    // This whole page is injected into a Frappe "Web Page"'s main_section_html, which lands
+    // in the real document's <body> (inside <article>), not its actual <head> — so this
+    // page's own <meta name="viewport">/<link rel=manifest>/<link rel=apple-touch-icon> tags
+    // above are present in the DOM but never take effect; the REAL <head> still has Frappe's
+    // own default viewport meta (no viewport-fit, different initial-scale), which was the
+    // actual cause of the Android status bar looking wrong after install — not anything in
+    // our own CSS. Fix it by patching the real <head> directly. See handoff 12.
+    var realHead = document.head;
+    var realViewport = realHead.querySelector('meta[name="viewport"]');
+    if (!realViewport) { realViewport = document.createElement('meta'); realViewport.setAttribute('name', 'viewport'); realHead.appendChild(realViewport); }
+    realViewport.setAttribute('content', 'width=device-width, initial-scale=1.0');
+    var realTheme = realHead.querySelector('meta[name="theme-color"]');
+    if (!realTheme) { realTheme = document.createElement('meta'); realTheme.setAttribute('name', 'theme-color'); realHead.appendChild(realTheme); }
+    realTheme.setAttribute('content', '#0F6E56');
   }
 </script>
 <meta name="theme-color" content="#0F6E56">
